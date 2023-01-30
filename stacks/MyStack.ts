@@ -19,13 +19,13 @@ export function MyStack({ stack, app }: StackContext) {
         oAuth: {
           callbackUrls: [
             app.stage === "prod"
-              ? "https://my-app.com"
+              ? "https://production.com"
               : "http://localhost:3000",
           ],
           logoutUrls: [
             app.stage === "prod"
-              ? "https://my-app.com"
-              : "https://localhost:3000",
+              ? "https://production.com"
+              : "http://localhost:3000",
           ],
         },
       },
@@ -59,11 +59,11 @@ export function MyStack({ stack, app }: StackContext) {
 
   auth.attachPermissionsForAuthUsers(stack, [api])
 
-  // Throw error if client ID & secret are not provided
+  // Throwing an error if client ID & secret are not provided
   if (!process.env.GITHUB_CLIENT_ID || !process.env.GITHUB_CLIENT_SECRET)
     throw new Error("Please set GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET");
 
-  // Create a GitHub OIDC IDP
+  // Creating a GitHub OIDC IDP
   const idp = new cognito.CfnUserPoolIdentityProvider(
     stack,
     "GitHubIdentityProvider",
@@ -90,12 +90,12 @@ export function MyStack({ stack, app }: StackContext) {
     }
   );
 
-  // attach the IDP to the client
+  // attaching the IDP to the client
   if (idp) {
     auth.cdk.userPoolClient.node.addDependency(idp);
   }
 
-  // Create a cognito userpool domain
+  // Creating a cognito userpool domain
   const domain = auth.cdk.userPool.addDomain("AuthDomain", {
     cognitoDomain: {
       domainPrefix: `${app.stage}-github-demo-oauth`,
