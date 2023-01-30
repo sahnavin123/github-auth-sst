@@ -1,0 +1,5 @@
+{
+  "name": "github-auth-sst",
+  "region": "ap-south-1",
+  "main": "stacks/index.ts"
+}
