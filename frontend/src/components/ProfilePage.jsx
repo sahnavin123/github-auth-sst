@@ -18,7 +18,7 @@ const ProfilePage = () => {
     try {
       const response = await API.get("api", "/private", {
         headers: {
-          Authorization: `Bearer ${(await Auth.currentSession())
+          Authorization: `${(await Auth.currentSession())
             .getAccessToken()
             .getJwtToken()}`,
         },
